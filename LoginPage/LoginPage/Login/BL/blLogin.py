@@ -1,5 +1,5 @@
 # Import the necessary functions and classes from the DAL, hasher, and encryption modules.
-from ..DAL.dal import get_user_by_username, username_exists, add_user
+from ..DAL.dalLogin import get_user_by_username, username_exists, add_user
 from ..Classes.user import User
 from .hasher import hash_password, verify_password
 from .Encryption import encrypt_data, decrypt_data

@@ -5,7 +5,6 @@
 
     <style>
 
-        /* Page styling */
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #f4f6f8;
@@ -14,7 +13,6 @@
             line-height: 1.6;
         }
 
-        /* Main content container */
         .container {
             max-width: 900px;
             margin: auto;
@@ -24,7 +22,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* Headings */
         h1 {
             text-align: center;
             color: #2c3e50;
@@ -35,7 +32,6 @@
             margin-top: 35px;
         }
 
-        /* Divider */
         hr {
             border: none;
             height: 1px;
@@ -43,12 +39,10 @@
             margin: 30px 0;
         }
 
-        /* Lists */
         ul, ol {
             margin-left: 20px;
         }
 
-        /* Highlight boxes */
         .box {
             background: #f0f6ff;
             border-left: 4px solid #3498db;
@@ -57,7 +51,14 @@
             border-radius: 6px;
         }
 
-        /* Code block */
+        .warning {
+            background: #fff5f5;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
         pre {
             background: #1e1e1e;
             color: #dcdcdc;
@@ -66,7 +67,6 @@
             overflow-x: auto;
         }
 
-        /* Summary box */
         .summary {
             background: #eafaf1;
             border-left: 4px solid #27ae60;
@@ -74,52 +74,77 @@
             margin-top: 20px;
             border-radius: 6px;
         }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            .logout-btn:hover {
+                background: #c0392b;
+            }
     </style>
 
 </head>
 
 <body>
-    <a href="{% url 'index' %}">Back to Home</a>
 
     <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <a href="{% url 'index' %}">← Back to Home</a>
+
+            <!-- LOGOUT BUTTON -->
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
 
         <h1>How Web Sessions Work</h1>
 
         <p>
             Web applications are naturally <b>stateless</b>.
-            This means that every time your browser sends a request to a server, the server treats it as if it has never seen you before.
+            Every request is treated independently — the server does not remember previous interactions.
         </p>
 
         <div class="box">
-            Example:
+            <b>Without sessions:</b>
             <ul>
-                <li>You open a website</li>
                 <li>You log in</li>
                 <li>You click another page</li>
+                <li>The server forgets who you are</li>
             </ul>
-            Without sessions, the server would forget who you are after every page request.
         </div>
 
         <hr>
 
-        <h2>The Problem</h2>
+        <h2>The Core Problem</h2>
 
         <p>
-            Imagine a website with a login system.
-        </p>
-
-        <p>
-            If the server forgets every user after each request:
+            Modern web applications require <b>state</b>:
         </p>
 
         <ul>
-            <li>You would have to log in again on every page</li>
-            <li>The server would not know who you are</li>
-            <li>Your cart, settings, and preferences would disappear</li>
+            <li>Authentication (Who are you?)</li>
+            <li>Authorisation (What can you access?)</li>
+            <li>Persistence (What have you done?)</li>
         </ul>
 
         <p>
-            To solve this problem, web applications use <b>sessions</b>.
+            Without a solution, every page would require re-authentication — which is clearly impractical.
         </p>
 
         <hr>
@@ -127,140 +152,100 @@
         <h2>What is a Session?</h2>
 
         <p>
-            A <b>session</b> is a temporary way for a website to remember who a user is between requests.
-        </p>
-
-        <p>
-            Instead of storing all user information in the browser, the server creates a unique <b>Session ID</b>.
+            A <b>session</b> is a server-side mechanism used to track a user across multiple requests.
         </p>
 
         <div class="box">
-            Think of the Session ID like a <b>ticket number</b>.
+            A session works by linking:
+            <ul>
+                <li><b>Client (browser)</b> → stores Session ID</li>
+                <li><b>Server</b> → stores user data</li>
+            </ul>
         </div>
 
-        <ul>
-            <li>The server stores information about the user</li>
-            <li>The browser stores the Session ID</li>
-            <li>Each request sends the Session ID back to the server</li>
-        </ul>
+        <p>
+            The Session ID acts as a secure reference — not the data itself.
+        </p>
 
         <hr>
 
-        <h2>How Sessions Work (Step by Step)</h2>
+        <h2>Session Lifecycle (Step-by-Step)</h2>
 
         <ol>
-
-            <li>User logs in with a username and password.</li>
-
-            <li>The server verifies the login credentials.</li>
-
-            <li>If correct, the server generates a unique <b>Session ID</b>.</li>
-
-            <li>
-                The server stores session data such as:
-                <ul>
-                    <li>User ID</li>
-                    <li>Login status</li>
-                    <li>Permissions</li>
-                </ul>
-            </li>
-
-            <li>The server sends the Session ID to the browser.</li>
-
-            <li>The browser stores the Session ID (usually inside a cookie).</li>
-
-            <li>Every time the browser requests another page, the Session ID is sent with the request.</li>
-
-            <li>The server reads the Session ID and retrieves the stored session data.</li>
-
+            <li>User submits login credentials</li>
+            <li>Server validates credentials (Authentication)</li>
+            <li>Server generates a unique <b>Session ID</b></li>
+            <li>Server stores session data (user, role, permissions)</li>
+            <li>Session ID is sent to browser (via cookie)</li>
+            <li>Browser sends Session ID with every request</li>
+            <li>Server retrieves session data → grants access</li>
         </ol>
 
         <hr>
 
-        <h2>Analogy: Cloakroom Ticket</h2>
+        <h2>Analogy: Cloakroom System</h2>
 
         <div class="box">
-
             <ul>
-                <li>You give your coat to the attendant.</li>
-                <li>You receive a ticket number.</li>
-                <li>The attendant stores your coat.</li>
-                <li>You return with your ticket.</li>
-                <li>The attendant retrieves your coat.</li>
+                <li>You hand over your coat (data)</li>
+                <li>You receive a ticket (Session ID)</li>
+                <li>The cloakroom stores your coat (server)</li>
+                <li>You present your ticket to retrieve it</li>
             </ul>
 
-            Your browser holds the <b>ticket</b>.
-            The server holds the <b>coat</b>.
-
+            <b>Key Idea:</b> The browser never stores the coat — only the ticket.
         </div>
 
         <hr>
 
-        <h2>Example Session Data</h2>
-
-        <p>
-            A session stored on the server might look like this:
-        </p>
+        <h2>Example Session Data (Server-Side)</h2>
 
 <pre>
 Session ID: A92F8C1D
 
-Stored Data
------------
 username = hayden
 logged_in = true
 role = admin
 </pre>
 
         <p>
-            Notice that the browser only stores the <b>Session ID</b>, not the actual user data.
+            The browser only holds the Session ID — reducing exposure of sensitive data.
         </p>
-
-        <hr>
-
-        <h2>Why Sessions Are Important</h2>
-
-        <ul>
-            <li>Keep users logged in</li>
-            <li>Store shopping carts</li>
-            <li>Remember user preferences</li>
-            <li>Manage authentication</li>
-        </ul>
 
         <hr>
 
         <h2>Security Considerations</h2>
 
-        <p>
-            Because the Session ID identifies a user, it must be protected.
-        </p>
+        <div class="warning">
+            Sessions are a major attack target because they represent authenticated identity.
+        </div>
 
         <ul>
-            <li>Session hijacking</li>
-            <li>Session fixation</li>
-            <li>Session theft</li>
+            <li><b>Session Hijacking</b> – stealing a valid session ID</li>
+            <li><b>Session Fixation</b> – forcing a known session ID</li>
+            <li><b>Session Theft</b> – via XSS or insecure transport</li>
         </ul>
 
-        <p>
-            Common protections include:
-        </p>
+        <p><b>Defensive Strategies:</b></p>
 
         <ul>
-            <li>Secure cookies</li>
-            <li>HTTPS encryption</li>
-            <li>Session expiration</li>
-            <li>Regenerating session IDs after login</li>
+            <li>HTTPS (prevents interception)</li>
+            <li>Secure + HttpOnly cookies</li>
+            <li>Session expiry / timeout</li>
+            <li>Regenerate session ID after login</li>
         </ul>
+
+        <hr>
 
         <div class="summary">
 
             <h2>Summary</h2>
 
             <ul>
-                <li>Websites are stateless by default.</li>
-                <li>Sessions allow servers to remember users between requests.</li>
-                <li>A Session ID links the browser to data stored on the server.</li>
-                <li>Sessions power login systems, carts, and personalised experiences.</li>
+                <li>HTTP is stateless → sessions introduce state</li>
+                <li>Session ID links browser ↔ server data</li>
+                <li>Used for authentication and authorisation</li>
+                <li>Must be secured to prevent account compromise</li>
             </ul>
 
         </div>

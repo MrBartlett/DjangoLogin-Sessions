@@ -1,6 +1,9 @@
 import os
 from ..Classes.user import User
 
+# -------------------------------------------------------------
+# User Data Access Layer (DAL)
+# -------------------------------------------------------------
 
 def get_users_file_path():
     """
@@ -125,3 +128,4 @@ def add_user(user: User):
         # Write the new record in the format:
         # username|encrypted_real_name|password_hash
         file.write(f"{user.username}|{user.encrypted_real_name}|{user.password_hash}\n")
+
