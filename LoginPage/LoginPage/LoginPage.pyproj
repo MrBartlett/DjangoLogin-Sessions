@@ -3,7 +3,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <Name>LoginPage</Name>
     <RootNamespace>LoginPage</RootNamespace>
-    <InterpreterId>MSBuild|Base|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|Desktop|$(MSBuildProjectFullPath)</InterpreterId>
     <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup>
@@ -87,6 +87,15 @@
       <Id>Base</Id>
       <Version>3.14</Version>
       <Description>Base (Python 3.14 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+    <Interpreter Include="Desktop\">
+      <Id>Desktop</Id>
+      <Version>3.14</Version>
+      <Description>Desktop (Python 3.14 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>

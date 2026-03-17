@@ -1,6 +1,7 @@
 from .BL.bl import signup_user, authenticate_user, get_real_name_by_username
 from django.shortcuts import render, redirect
 
+
 def index(request):
     """
     Main page for login and signup.
@@ -65,6 +66,7 @@ def index(request):
         "success": success
     })
 
+# -----------------------------------------------------------
 def logged_in_only(request):
     """
     Example protected page.
@@ -86,6 +88,7 @@ def logged_in_only(request):
     # If there is no session token at all, the user is not logged in.
     # Redirect them back to the login page.
     if not session_token:
+        # Redirect is the correct way to send a user to a new page
         return redirect("index")
 
     # ------------------------------------------------------------
