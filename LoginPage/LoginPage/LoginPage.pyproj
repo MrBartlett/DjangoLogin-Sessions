@@ -1,0 +1,136 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Name>LoginPage</Name>
+    <RootNamespace>LoginPage</RootNamespace>
+    <InterpreterId>MSBuild|Base|$(MSBuildProjectFullPath)</InterpreterId>
+    <TestFramework>Pytest</TestFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>3938a56e-abd1-4ee9-865d-fa9a8b1d1f87</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <DjangoSettingsModule>LoginPage.settings</DjangoSettingsModule>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Login\admin.py" />
+    <Compile Include="Login\apps.py" />
+    <Compile Include="Login\BL\bl.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\BL\Encryption.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\BL\hasher.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\Classes\user.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\DAL\dal.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\migrations\__init__.py" />
+    <Compile Include="Login\models.py" />
+    <Compile Include="Login\tests.py" />
+    <Compile Include="Login\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login\views.py" />
+    <Compile Include="Login\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="LoginPage\__init__.py" />
+    <Compile Include="LoginPage\settings.py" />
+    <Compile Include="LoginPage\urls.py" />
+    <Compile Include="LoginPage\wsgi.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Login\DAL\sessions.txt" />
+    <Content Include="Login\DAL\users.txt" />
+    <Content Include="Login\Secrets\README.txt" />
+    <Content Include="Login\Secrets\secret.key" />
+    <Content Include="Login\templates\Login\index.html" />
+    <Content Include="Login\templates\Login\LoggedInOnly.html" />
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LoginPage\" />
+    <Folder Include="Login\" />
+    <Folder Include="Login\migrations\" />
+    <Folder Include="Login\BL\" />
+    <Folder Include="Login\Classes\" />
+    <Folder Include="Login\DAL\" />
+    <Folder Include="Login\Secrets\" />
+    <Folder Include="Login\templates\" />
+    <Folder Include="Login\templates\Login\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="Base\">
+      <Id>Base</Id>
+      <Version>3.14</Version>
+      <Description>Base (Python 3.14 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

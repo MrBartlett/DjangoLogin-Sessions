@@ -1,0 +1,106 @@
+<html>
+
+<head>
+    <!-- Title shown in the browser tab -->
+    <title>Login / Sign Up</title>
+</head>
+
+<body>
+    <a href="{% url 'logged_in_only' %}">Go to Logged In Only Page</a>
+    <h1>Login / Sign Up</h1>
+
+    <!-- Display feedback message from the server -->
+    {% if message %}
+    {% if success %}
+    <p style="color:green;">{{ message }}</p>
+    {% else %}
+    <p style="color:red;">{{ message }}</p>
+    {% endif %}
+    {% endif %}
+
+
+    <!-- ============================================================ -->
+    <!-- LOGIN SECTION -->
+    <!-- ============================================================ -->
+
+    <h2>Login</h2>
+
+    <!-- Form sends data to Django using POST -->
+    <form method="POST">
+
+        <!-- Django CSRF protection token -->
+        {% csrf_token %}
+
+        <!-- Username input -->
+        <label>Username:</label><br>
+        <input type="text" name="username"><br><br>
+
+        <!-- Password input -->
+        <label>Password:</label><br>
+        <input type="password" name="password"><br><br>
+
+        <!--
+        The button includes:
+        name="form_type"
+        value="login"
+
+        When clicked, Django will receive:
+        form_type = login
+        -->
+        <button type="submit" name="form_type" value="login">
+            Login
+        </button>
+
+    </form>
+
+
+    <!-- Separator line between the two forms -->
+    <hr>
+
+
+    <!-- ============================================================ -->
+    <!-- SIGNUP SECTION -->
+    <!-- ============================================================ -->
+
+    <h2>Sign Up</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- Username -->
+        <label>Username:</label><br>
+        <input type="text" name="username"><br><br>
+
+        <!-- Real Name (Sensitive Information) -->
+        <!--
+        This will be encrypted before being stored in the database.
+        We encrypt real names because they are personal information.
+        -->
+        <label>Real Name:</label><br>
+        <input type="text" name="real_name"><br><br>
+
+        <!-- Password -->
+        <label>Password:</label><br>
+        <input type="password" name="password"><br><br>
+
+        <!-- Confirm password -->
+        <label>Confirm Password:</label><br>
+        <input type="password" name="confirm_password"><br><br>
+
+        <!--
+        This button sends:
+        form_type = signup
+
+        The Django view uses this value to determine
+        which form was submitted.
+        -->
+        <button type="submit" name="form_type" value="signup">
+            Sign Up
+        </button>
+
+    </form>
+
+</body>
+
+</html>
