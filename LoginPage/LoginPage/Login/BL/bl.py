@@ -4,7 +4,7 @@ from ..Classes.user import User
 from .hasher import hash_password, verify_password
 from .Encryption import encrypt_data, decrypt_data
 
-
+# -----------------------------------------------------------
 def signup_user(username: str, real_name: str, password: str) -> bool:
     """
     Create a new user account.
@@ -42,7 +42,7 @@ def signup_user(username: str, real_name: str, password: str) -> bool:
 
     return True
 
-
+# -----------------------------------------------------------
 def authenticate_user(username: str, password: str) -> bool:
     """
     Check whether a username and password are correct.
@@ -68,7 +68,7 @@ def authenticate_user(username: str, password: str) -> bool:
     # Verify the entered password against the stored Argon2 hash.
     return verify_password(user.password_hash, password)
 
-
+# -----------------------------------------------------------
 def get_real_name_by_username(username: str):
     """
     Get the user's real name and decrypt it.

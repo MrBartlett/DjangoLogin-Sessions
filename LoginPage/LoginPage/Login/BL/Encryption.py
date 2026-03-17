@@ -25,6 +25,7 @@ def get_key_path():
     settings.BASE_DIR points to the Django project folder.
     From there we go into the app (in this example "login"), then the Secrets folder.
     """
+    # The secret key file is stored in the Secrets folder, which is not part of the database and is not committed to version control.
     return os.path.join(settings.BASE_DIR, "login", "Secrets", "secret.key")
 
 

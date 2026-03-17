@@ -12,11 +12,11 @@ def index(request):
 
     message = ""
     success = None
-
+    # We check if the request method is POST, which means that the user has submitted a form.
     if request.method == "POST":
-
+        # We use the form_type field to determine whether the user is trying to log in or sign up.
         form_type = request.POST.get("form_type")
-
+        # We get the common fields (username and password) from the form data.
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
 
@@ -24,7 +24,7 @@ def index(request):
         # LOGIN
         # ------------------------------------------------------------
         if form_type == "login":
-
+            # Validate the form data before sending it to BL.
             if authenticate_user(username, password):
 
                 # Get the decrypted real name from BL
@@ -32,7 +32,7 @@ def index(request):
 
                 message = f"You have logged in {real_name}"
                 success = True
-
+                # In a real application, we would also create a session token here and send it to the browser as a cookie.
             else:
                 message = "Invalid username or password."
                 success = False
@@ -41,26 +41,33 @@ def index(request):
         # SIGNUP
         # ------------------------------------------------------------
         elif form_type == "signup":
-
+            # For signup, we need to get the real name and confirm password fields as well.
             real_name = request.POST.get("real_name", "").strip()
             confirm_password = request.POST.get("confirm_password", "").strip()
 
+            # Validate the form data before sending it to BL.
             if username == "" or real_name == "" or password == "" or confirm_password == "":
                 message = "All fields must be completed."
                 success = False
 
+            # In a real application, we would also validate the password strength here.
             elif password != confirm_password:
                 message = "Passwords do not match."
                 success = False
 
+            # If the form data is valid, we send it to the BL to create the account.
             else:
+                # The BL will return False if the username already exists, and True if the account was created successfully.
                 if signup_user(username, real_name, password):
+                    # If the account was created successfully, we can log the user in immediately.
                     message = "Account created successfully."
                     success = True
                 else:
+                    # The most likely reason for failure is that the username already exists.
                     message = "Username already exists."
                     success = False
 
+    # Finally, we render the page with the message and success status to inform the user of the result of their action.
     return render(request, "Login/index.html", {
         "message": message,
         "success": success
